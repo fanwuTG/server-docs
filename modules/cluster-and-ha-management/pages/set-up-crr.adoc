@@ -16,7 +16,7 @@ If you are setting up both the primary cluster and DR cluster from scratch, you 
 
 == Before you begin
 
-* Install TigerGraph 4.0 or higher on both the primary cluster and the DR cluster *in the same version*.
+* Install TigerGraph 3.9.10 or higher on both the primary cluster and the DR cluster *in the same version*.
 * Make sure that your DR cluster has the same number of partitions as the primary cluster.
 * Make sure the username and password of the TigerGraph database user created on the DR cluster during installation matches one of the users on the primary cluster who have the `superuser` role.
 * If you choose to enable CRR and your DR cluster is in a different Virtual Private Cloud (VPC) than your primary cluster, make sure that TigerGraph is installed on your cluster with public IPs:
@@ -112,7 +112,7 @@ $ gadmin crr stop -y
 
 2. xref:installation:upgrade.adoc[Upgrade] both the primary cluster and DR cluster.
 
-3. Start CRR on the DR cluster(From TigerGraph 4.0, no additional restart is required to start CRR).
+3. Start CRR on the DR cluster(From TigerGraph 3.9.10, no additional restart is required to start CRR).
 
 [source.wrap,console]
 ----
