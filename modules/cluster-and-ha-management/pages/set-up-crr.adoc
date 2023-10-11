@@ -98,6 +98,49 @@ When the primary cluster executes an `IMPORT`, `DROP ALL`, or `CLEAR GRAPH STORE
 To bring an outdated cluster back in sync, you need to generate a fresh backup of the primary cluster, and perform the setup steps detailed on this page again.
 However, you can skip <<_enable_crr_on_the_dr_cluster, Step 3: Enable CRR on the DR cluster>> except running `gadmin crr start`, because CRR will have already been enabled and no need to restart services to make it effective.
 
+== Advanced settings for CRR
+
+=== Retrieve the current configuration of CRR
+
+Run the `gadmin crr config` to view the current configuration of CRR. You can save it to a file with the extension "cfg" for easy reference and future adjustments.
+
+=== Setting up and updating the configuration
+
+Any configuration parameters supported by Mirror-Source-Connector can be set in the configuration file, by running `gadmin crr update -c <your_crr.cfg>` to update the settings.
+[source.wrap]
+----
+heartbeats.topic.replication.factor=1
+replication.factor=1
+sync.topic.acls.enabled=false
+key.converter=org.apache.kafka.connect.converters.ByteArrayConverter
+offset-syncs.topic.replication.factor=1
+secondary.scheduled.rebalance.max.delay.ms=35000
+status.storage.replication.factor=1
+topics=deltaQ.* ,Metadata.* ,GSE_journal_.*
+config.storage.replication.factor=1
+source.cluster.alias=Primary
+target.cluster.alias=Secondary
+checkpoints.topic.replication.factor=1
+connector.class=org.apache.kafka.connect.mirror.MirrorSourceConnector
+emit.heartbeats.interval.seconds=5
+header.converter=org.apache.kafka.connect.converters.ByteArrayConverter
+offset.storage.replication.factor=1
+source->target.enabled=true
+value.converter=org.apache.kafka.connect.converters.ByteArrayConverter
+
+
+[connector_mm]
+name=infr_mm
+# Setting Example
+# We can improve throughput by adjusting the maximum parallelism.
+tasks.max=4
+----
+
+[WARNING]
+====
+Do not change the values of `name`, `topics`, as this will cause the CRR to work abnormally!
+====
+
 == Updating a CRR system
 
 From time to time, you may want to update the TigerGraph software on a CRR system.
