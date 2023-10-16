@@ -64,8 +64,7 @@ $ gadmin config set System.CrossRegionReplication.TopicPrefix Primary
 
 # Apply the config changes, init Kafka, and restart
 $ gadmin config apply -y
-$ gadmin init kafka -y
-$ gadmin restart all -y
+$ gadmin restart GSE GPE GSQL -y
 
 # Start mirrormaker and begin cross-region replication
 $ gadmin crr start
